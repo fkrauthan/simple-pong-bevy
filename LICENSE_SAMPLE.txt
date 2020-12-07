@@ -1,0 +1,1 @@
+This code is a port of the amethyst pong tutorial: https://book.amethyst.rs/stable/pong-tutorial.html

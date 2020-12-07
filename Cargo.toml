@@ -1,0 +1,10 @@
+[package]
+name = "simple-pong-bevy"
+version = "0.1.0"
+authors = ["Florian Krauthan <mail@fkrauthan.de>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bevy = {git = "https://github.com/bevyengine/bevy", rev = "1398d7833007e85198cfd35d5fabc70b51b4db31", features = ["vorbis"]}
