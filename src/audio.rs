@@ -1,6 +1,6 @@
-use bevy::ecs::{Commands, Res};
 use bevy::asset::{AssetServer, Handle};
 use bevy::audio::{Audio, AudioSource};
+use bevy::ecs::{Commands, Res};
 use std::iter::Cycle;
 use std::vec::IntoIter;
 

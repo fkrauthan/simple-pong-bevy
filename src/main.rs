@@ -1,13 +1,12 @@
+mod audio;
 mod game;
 mod systems;
 mod utils;
-mod audio;
 
-use bevy::prelude::*;
 use crate::game::{init_game, start_game_system};
-use crate::systems::{paddle_system, move_balls_system, bounce_system, winner_system};
+use crate::systems::{bounce_system, move_balls_system, paddle_system, winner_system};
 use crate::utils::camera_virtual_screen_system;
-
+use bevy::prelude::*;
 
 fn main() {
     App::build()

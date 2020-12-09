@@ -1,6 +1,6 @@
-use bevy::ecs::{Res, Query};
-use bevy::core::Time;
 use crate::game::Ball;
+use bevy::core::Time;
+use bevy::ecs::{Query, Res};
 use bevy::prelude::Transform;
 
 pub fn move_balls_system(time: Res<Time>, mut query: Query<(&Ball, &mut Transform)>) {

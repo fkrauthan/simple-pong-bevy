@@ -1,9 +1,9 @@
-use bevy::ecs::{ResMut, Query, Res};
-use crate::game::{ScoreBoard, Ball, ARENA_WIDTH, ARENA_HEIGHT, ScoreText};
+use crate::audio::{play_score_sound, Sounds};
+use crate::game::{Ball, ScoreBoard, ScoreText, ARENA_HEIGHT, ARENA_WIDTH};
+use bevy::audio::Audio;
+use bevy::ecs::{Query, Res, ResMut};
 use bevy::prelude::Transform;
 use bevy::ui::widget::Text;
-use bevy::audio::Audio;
-use crate::audio::{Sounds, play_score_sound};
 
 pub fn winner_system(
     audio: Res<Audio>,

@@ -1,15 +1,15 @@
-use bevy::ecs::{Query, Res};
-use crate::game::{Ball, Paddle, ARENA_HEIGHT, Side};
-use bevy::prelude::Transform;
 use crate::audio::{play_bounce_sound, Sounds};
+use crate::game::{Ball, Paddle, Side, ARENA_HEIGHT};
 use bevy::audio::Audio;
+use bevy::ecs::{Query, Res};
+use bevy::prelude::Transform;
 
 // TODO explore using collide method
 pub fn bounce_system(
     audio: Res<Audio>,
     sounds: Res<Sounds>,
     mut ball_query: Query<(&mut Ball, &Transform)>,
-    paddle_query: Query<(&Paddle, &Transform)>
+    paddle_query: Query<(&Paddle, &Transform)>,
 ) {
     for (mut ball, ball_transform) in ball_query.iter_mut() {
         let ball_x = ball_transform.translation.x;

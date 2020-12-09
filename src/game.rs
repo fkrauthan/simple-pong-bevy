@@ -1,16 +1,19 @@
-use bevy::ecs::{Commands, Res, ResMut, Query};
-use bevy::prelude::{Transform, Vec3, Vec2, Entity, Camera2dBundle, CameraUiBundle, TextBundle, NodeBundle, BuildChildren, VerticalAlign, HorizontalAlign};
-use bevy::asset::{AssetServer, Assets, Handle};
-use bevy::sprite::{TextureAtlas, TextureAtlasSprite, ColorMaterial};
-use bevy::ui::widget::Text;
-use bevy::text::{TextStyle, TextAlignment};
-use bevy::render::color::Color;
-use bevy::ui::{Style, Val, JustifyContent, AlignItems};
-use bevy::math::Size;
-use crate::utils::{VirtualScreen, ScaleType};
 use crate::audio::initialise_audio;
-use bevy::core::{Timer, Time};
+use crate::utils::{ScaleType, VirtualScreen};
+use bevy::asset::{AssetServer, Assets, Handle};
+use bevy::core::{Time, Timer};
+use bevy::ecs::{Commands, Query, Res, ResMut};
+use bevy::math::Size;
+use bevy::prelude::{
+    BuildChildren, Camera2dBundle, CameraUiBundle, Entity, HorizontalAlign, NodeBundle, TextBundle,
+    Transform, Vec2, Vec3, VerticalAlign,
+};
+use bevy::render::color::Color;
 use bevy::sprite::entity::SpriteSheetBundle;
+use bevy::sprite::{ColorMaterial, TextureAtlas, TextureAtlasSprite};
+use bevy::text::{TextAlignment, TextStyle};
+use bevy::ui::widget::Text;
+use bevy::ui::{AlignItems, JustifyContent, Style, Val};
 
 pub const ARENA_HEIGHT: f32 = 100.0;
 pub const ARENA_WIDTH: f32 = 100.0;
@@ -68,26 +71,28 @@ pub struct StartTimer {
 impl StartTimer {
     fn new(seconds_to_start: f32) -> StartTimer {
         StartTimer {
-            timer: Timer::from_seconds(seconds_to_start, false)
+            timer: Timer::from_seconds(seconds_to_start, false),
         }
     }
 }
 
-pub fn init_game(commands: &mut Commands, asset_server: Res<AssetServer>, mut texture_atlases: ResMut<Assets<TextureAtlas>>, mut materials: ResMut<Assets<ColorMaterial>>) {
-    let texture_atlas_handle  = load_sprite_sheet(&asset_server, &mut texture_atlases);
-    commands
-        .insert_resource(SpriteSheet {
-            handle: texture_atlas_handle.clone(),
-        });
+pub fn init_game(
+    commands: &mut Commands,
+    asset_server: Res<AssetServer>,
+    mut texture_atlases: ResMut<Assets<TextureAtlas>>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
+) {
+    let texture_atlas_handle = load_sprite_sheet(&asset_server, &mut texture_atlases);
+    commands.insert_resource(SpriteSheet {
+        handle: texture_atlas_handle.clone(),
+    });
 
-    commands
-        .insert_resource(ScoreBoard {
-            score_left: 0,
-            score_right: 0,
-        });
+    commands.insert_resource(ScoreBoard {
+        score_left: 0,
+        score_right: 0,
+    });
 
-    commands
-        .spawn((StartTimer::new(1.0), ));
+    commands.spawn((StartTimer::new(1.0),));
 
     initialise_camera(commands);
     initialise_paddles(commands, &texture_atlas_handle);
@@ -100,7 +105,8 @@ pub fn start_game_system(
     commands: &mut Commands,
     time: Res<Time>,
     sprite_sheet: Res<SpriteSheet>,
-    mut query: Query<(Entity, &mut StartTimer)>) {
+    mut query: Query<(Entity, &mut StartTimer)>,
+) {
     for (entity, mut timer) in query.iter_mut() {
         if timer.timer.tick(time.delta_seconds()).just_finished() {
             commands.despawn(entity);
@@ -109,7 +115,10 @@ pub fn start_game_system(
     }
 }
 
-fn load_sprite_sheet(asset_server: &Res<AssetServer>, texture_atlases: &mut ResMut<Assets<TextureAtlas>>) -> Handle<TextureAtlas> {
+fn load_sprite_sheet(
+    asset_server: &Res<AssetServer>,
+    texture_atlases: &mut ResMut<Assets<TextureAtlas>>,
+) -> Handle<TextureAtlas> {
     // Add Sprite sheet
     let texture_handle = asset_server.load("texture/pong_spritesheet.png");
     let mut texture_atlas = TextureAtlas::new_empty(texture_handle, Vec2::new(8.0, 16.0));
@@ -160,7 +169,6 @@ fn initialise_paddles(commands: &mut Commands, texture_atlas_handle: &Handle<Tex
         ..Default::default()
     };
 
-
     // Create a left plank entity.
     commands
         .spawn(sprite_render_left)
@@ -197,7 +205,11 @@ fn initialise_ball(commands: &mut Commands, texture_atlas_handle: &Handle<Textur
         });
 }
 
-fn initialise_scoreboard(commands: &mut Commands, asset_server: &Res<AssetServer>, materials: &mut ResMut<Assets<ColorMaterial>>) {
+fn initialise_scoreboard(
+    commands: &mut Commands,
+    asset_server: &Res<AssetServer>,
+    materials: &mut ResMut<Assets<ColorMaterial>>,
+) {
     let font = asset_server.load("font/square.ttf");
 
     let mut p1_score = None;
@@ -263,9 +275,8 @@ fn initialise_scoreboard(commands: &mut Commands, asset_server: &Res<AssetServer
                 .current_entity();
         });
 
-    commands
-        .insert_resource(ScoreText {
-            p1_score: p1_score.unwrap(),
-            p2_score: p2_score.unwrap(),
-        });
+    commands.insert_resource(ScoreText {
+        p1_score: p1_score.unwrap(),
+        p2_score: p2_score.unwrap(),
+    });
 }

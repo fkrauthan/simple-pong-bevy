@@ -1,8 +1,8 @@
-use bevy::ecs::{Local, Res, QuerySet, Query};
 use bevy::app::{EventReader, Events};
-use bevy::window::{WindowResized, WindowCreated, Windows, Window};
+use bevy::ecs::{Local, Query, QuerySet, Res};
+use bevy::prelude::{Added, Entity, Transform, Vec3};
 use bevy::render::camera::Camera;
-use bevy::prelude::{Entity, Transform, Vec3, Added};
+use bevy::window::{Window, WindowCreated, WindowResized, Windows};
 
 #[derive(Debug)]
 pub enum ScaleType {
@@ -84,6 +84,6 @@ fn calculate_scale_factor(config: &VirtualScreen, window: &Window) -> Vec3 {
 
     match config.scale_type {
         ScaleType::Stretch => Vec3::new(x_scale, y_scale, 1.0),
-        ScaleType::Fit => Vec3::new(x_scale.max(y_scale), x_scale.max(y_scale), 1.0)
+        ScaleType::Fit => Vec3::new(x_scale.max(y_scale), x_scale.max(y_scale), 1.0),
     }
 }
