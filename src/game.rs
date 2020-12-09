@@ -5,8 +5,8 @@ use bevy::sprite::{TextureAtlas, TextureAtlasSprite, ColorMaterial};
 use bevy::ui::widget::Text;
 use bevy::text::{TextStyle, TextAlignment};
 use bevy::render::color::Color;
-use bevy::ui::{Style, Val, AlignContent, JustifyContent, AlignItems, PositionType};
-use bevy::math::{Size, Rect};
+use bevy::ui::{Style, Val, JustifyContent, AlignItems};
+use bevy::math::Size;
 use crate::utils::{VirtualScreen, ScaleType};
 use crate::audio::initialise_audio;
 use bevy::core::{Timer, Time};
@@ -200,8 +200,8 @@ fn initialise_ball(commands: &mut Commands, texture_atlas_handle: &Handle<Textur
 fn initialise_scoreboard(commands: &mut Commands, asset_server: &Res<AssetServer>, materials: &mut ResMut<Assets<ColorMaterial>>) {
     let font = asset_server.load("font/square.ttf");
 
-    let p1_score;
-    let p2_score;
+    let mut p1_score = None;
+    let mut p2_score = None;
     commands
         .spawn(NodeBundle {
             style: Style {
